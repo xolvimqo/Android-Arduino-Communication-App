@@ -25,9 +25,12 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.ConnectionSpec;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -110,7 +113,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         String serverResponse = "ERROR";
 
         try{
-            OkHttpClient httpClient = new OkHttpClient(); // create an HTTP client
+            // create an HTTP client
+//            OkHttpClient httpClient = new OkHttpClient();
+            // create an HTTP client with timeout settings
+            OkHttpClient httpClient = new OkHttpClient.Builder().connectTimeout(15,TimeUnit.SECONDS).writeTimeout(15, TimeUnit.SECONDS).readTimeout(15, TimeUnit.SECONDS).build();
             // define the URL e.g. http://myIPAddress:myport/?pin=13 (to toggle pin 13 for example)
             URI website = new URI("http://" + ipAddress + ":" + portNumber + "/?"
                     + parameterName + "=" + parameterValue);
